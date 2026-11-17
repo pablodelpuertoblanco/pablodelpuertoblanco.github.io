@@ -1,0 +1,321 @@
+/* =============================================================================
+   ANIMACIONES DE IMPACTO
+   1. Intro: "apretón de manos" TCP entre el visitante y Pablo.
+   2. Hero interactivo: el visitante como nodo de la red y ping al hacer clic.
+   ========================================================================== */
+
+/* ---------- Mientras suena la intro, el hero espera ---------- */
+.intro-playing {
+  overflow: hidden;
+}
+
+.intro-playing .hero__intro > *,
+.intro-playing .topology__link,
+.intro-playing .topology__node,
+.intro-playing .topology__core {
+  animation-play-state: paused !important;
+}
+
+/* =============================================================================
+   1. INTRO
+   Línea de tiempo (ms): nodos 0-350 · cable 150-450 · SYN 420-820 ·
+   SYN-ACK 820-1220 · ACK 1220-1620 · conexión 1600 · cierre 2050
+   ========================================================================== */
+.intro {
+  --rx: 50%;
+  --ry: 50%;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2.25rem;
+  padding: 2rem;
+  background:
+    radial-gradient(var(--grid-dot) 1px, transparent 1.5px) 0 0 / 22px 22px,
+    radial-gradient(ellipse at 50% 45%, var(--surface) 0%, var(--bg) 70%);
+  color: var(--text);
+  cursor: pointer;
+  /* Al terminar se abre un agujero desde la foto del hero que deja ver la web */
+  --hole: 0px;
+  -webkit-mask-image: radial-gradient(circle at var(--rx) var(--ry), transparent var(--hole), #000 calc(var(--hole) + 1px));
+  mask-image: radial-gradient(circle at var(--rx) var(--ry), transparent var(--hole), #000 calc(var(--hole) + 1px));
+  transition: --hole 750ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@property --hole {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.intro.is-fast {
+  transition-duration: 420ms;
+}
+
+.intro.is-revealing {
+  --hole: 150vmax;
+}
+
+/* Salida: todo se desvanece salvo la foto, que vuela a su sitio en el hero */
+.intro.is-leaving .intro__wire,
+.intro.is-leaving .intro__status,
+.intro.is-leaving .intro__skip,
+.intro.is-leaving .intro__node--me .intro__label {
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+/* El nodo "Tú" tiene su propia animación de entrada, así que sale con otra animación */
+.intro.is-leaving .intro__node--you {
+  animation: intro-leave 220ms ease forwards;
+}
+
+@keyframes intro-leave {
+  to { opacity: 0; transform: scale(0.8); }
+}
+
+.intro__me.is-flying {
+  transition: transform 520ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* La foto del hero ya está en su sitio cuando llega la de la intro */
+.intro-done .topology__core {
+  animation: none !important;
+}
+
+.intro__stage {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.intro__node {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  animation: intro-fade 350ms var(--ease-out) both;
+}
+
+.intro__node--me {
+  animation-delay: 80ms;
+}
+
+.intro__label {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* El visitante: un nodo vacío con borde ámbar discontinuo */
+.intro__you {
+  width: clamp(3.25rem, 7vw, 5rem);
+  aspect-ratio: 1;
+  border: 2px dashed var(--amber);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--amber) 0 18%, transparent 20%);
+}
+
+/* Pablo: su foto, que se iluminará al completar la conexión */
+.intro__me {
+  position: relative;
+  width: clamp(6rem, 15vw, 10rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--avatar-ring);
+  animation: intro-glow 700ms ease-out 1600ms both;
+}
+
+.intro__me img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.intro__led {
+  position: absolute;
+  top: 6%;
+  right: 6%;
+  width: 0.9rem;
+  height: 0.9rem;
+  box-shadow: 0 0 0 4px var(--bg);
+  background: var(--line-strong);
+  animation: intro-led 200ms ease-out 1600ms both;
+}
+
+/* El cable y sus paquetes */
+.intro__wire {
+  position: relative;
+  width: clamp(8rem, 38vw, 30rem);
+  height: 3rem;
+}
+
+.intro__line,
+.intro__line-lit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  transform-origin: left center;
+}
+
+.intro__line {
+  background: repeating-linear-gradient(90deg, var(--line-strong) 0 6px, transparent 6px 12px);
+  animation: intro-draw 300ms ease-out 150ms both;
+}
+
+.intro__line-lit {
+  background: var(--amber);
+  box-shadow: 0 0 12px var(--amber);
+  animation: intro-draw 280ms ease-out 1580ms both;
+}
+
+.intro__packet {
+  position: absolute;
+  top: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: -0.4rem 0 0 -0.4rem;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 14px var(--amber);
+  opacity: 0;
+}
+
+.intro__packet--1 { animation: intro-ltr 400ms ease-in-out 420ms both; }
+.intro__packet--2 { animation: intro-rtl 400ms ease-in-out 820ms both; }
+.intro__packet--3 { animation: intro-ltr 400ms ease-in-out 1220ms both; }
+
+.intro__step {
+  position: absolute;
+  left: 50%;
+  bottom: calc(50% + 0.8rem);
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--amber-text);
+  white-space: nowrap;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.intro__step--1 { animation: intro-step 400ms ease-out 420ms both; }
+.intro__step--2 { animation: intro-step 400ms ease-out 820ms both; }
+.intro__step--3 { animation: intro-step 400ms ease-out 1220ms both; }
+
+/* Estado: "Conectando…" → "Conexión establecida" */
+.intro__status {
+  display: grid;
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.intro__status > span {
+  grid-area: 1 / 1;
+}
+
+.intro__status-a {
+  color: var(--muted);
+  animation: intro-out 160ms ease-in 1560ms both;
+}
+
+.intro__status-b {
+  animation: intro-in 350ms var(--ease-out) 1700ms both;
+}
+
+.intro__skip {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.25rem;
+  color: var(--muted);
+  font-size: var(--step--1);
+  opacity: 0.7;
+}
+
+@keyframes intro-fade {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes intro-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes intro-ltr {
+  0% { left: 0%; opacity: 0; }
+  12%, 88% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes intro-rtl {
+  0% { left: 100%; opacity: 0; }
+  12%, 88% { opacity: 1; }
+  100% { left: 0%; opacity: 0; }
+}
+
+@keyframes intro-step {
+  0% { opacity: 0; transform: translate(-50%, 6px); }
+  25%, 75% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -4px); }
+}
+
+@keyframes intro-led {
+  to { background: var(--amber); box-shadow: 0 0 0 4px var(--bg), 0 0 14px var(--amber); }
+}
+
+@keyframes intro-glow {
+  0% { box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--avatar-ring), 0 0 0 6px rgb(255 181 71 / 0.7); }
+  100% { box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--amber), 0 0 0 26px rgb(255 181 71 / 0); }
+}
+
+@keyframes intro-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes intro-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* =============================================================================
+   2. HERO INTERACTIVO
+   ========================================================================== */
+.hero__visual {
+  touch-action: manipulation;
+}
+
+.topology__packet.is-ping {
+  fill: var(--amber-text);
+}
+
+/* Onda al recibir un paquete o al hacer ping */
+.topology__core::after {
+  content: "";
+  position: absolute;
+  inset: -4%;
+  border: 2px solid var(--amber);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.topology__core.is-pulse::after {
+  animation: core-ripple 700ms ease-out;
+}
+
+@keyframes core-ripple {
+  from { opacity: 0.9; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.35); }
+}
+

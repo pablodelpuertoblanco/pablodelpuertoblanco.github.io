@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO básico. Estos textos los leen Google y las vistas previas de LinkedIn/WhatsApp,
+       que no ejecutan JavaScript, por eso viven aquí además de en data/portfolio.js. -->
+  <title>Pablo del Puerto Blanco | Programador y técnico IT</title>
+  <meta name="description" content="Portfolio de Pablo del Puerto Blanco, programador y técnico IT en Madrid. Desarrollo de aplicaciones, sistemas y redes, y análisis de datos con Power BI.">
+  <meta name="author" content="Pablo del Puerto Blanco">
+  <meta name="theme-color" content="#04182F" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F4F7FB" media="(prefers-color-scheme: light)">
+  <!-- Si cambias de dirección web, actualiza estas 3 URL, robots.txt, sitemap.xml y ajustes.urlSitio -->
+  <link rel="canonical" href="https://pablodelpuertoblanco.github.io/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Pablo del Puerto Blanco | Programador y técnico IT">
+  <meta property="og:description" content="Desarrollo de aplicaciones, sistemas y redes, y análisis de datos. Madrid.">
+  <meta property="og:url" content="https://pablodelpuertoblanco.github.io/">
+  <meta property="og:image" content="https://pablodelpuertoblanco.github.io/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Tipografía: Red Hat Display y Red Hat Text (Google Fonts). Ver README para alojarlas tú. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&family=Red+Hat+Text:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/intro.css">
+  <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <link rel="modulepreload" href="js/main.js">
+  <link rel="modulepreload" href="data/portfolio.js">
+
+  <!-- Aplica el tema guardado antes de pintar, para evitar parpadeos -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || saved === 'light') root.dataset.theme = saved;
+      } catch (e) { /* almacenamiento no disponible */ }
+      if (location.protocol === 'file:') root.classList.add('is-file');
+    })();
+  </script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <div id="app"></div>
+
+  <!-- Aviso si se abre el archivo con doble clic: los módulos JS necesitan un servidor -->
+  <div class="file-notice" role="alert">
+    <p><strong>Esta web necesita abrirse desde un servidor local.</strong></p>
+    <p>Los navegadores bloquean los módulos de JavaScript al abrir el archivo con doble clic.
+      Usa la extensión Live Server de VS Code o ejecuta <code>npx serve</code> en esta carpeta
+      (más detalles en el README).</p>
+  </div>
+
+  <noscript>
+    <div class="noscript">
+      <h1>Pablo del Puerto Blanco</h1>
+      <p>Programador y técnico IT en Madrid.</p>
+      <p>
+        <a href="cv/CV.pdf">Descargar CV (PDF)</a> ·
+        <a href="https://www.linkedin.com/in/pablo-del-puerto-blanco-4aa49b38a/">LinkedIn</a> ·
+        <a href="https://github.com/pablodelpuertoblanco">GitHub</a> ·
+        <a href="mailto:delpuertoblancopablo@gmail.com">delpuertoblancopablo@gmail.com</a>
+      </p>
+      <p>Activa JavaScript para ver el portfolio completo.</p>
+    </div>
+  </noscript>
+</body>
+</html>
