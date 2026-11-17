@@ -176,12 +176,6 @@ export function renderHero(data, c) {
         'div',
         { class: 'hero__visual' },
         topology(data, c),
-        h(
-          'p',
-          { class: 'topology__hint', 'aria-hidden': 'true' },
-          h('span', { class: 'hint-mouse' }, 'Pasa el ratón: tú también eres un nodo. Haz clic para hacer ping.'),
-          h('span', { class: 'hint-touch' }, 'Toca el diagrama para hacer ping.'),
-        ),
       ),
     ),
   );
