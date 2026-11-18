@@ -340,8 +340,8 @@ export default {
         'ExoPlayer',
       ],
       imagen: 'assets/img/proyectos/playswipe.webp',
-      // Enlace al código. Antes de ponerlo, limpia el repositorio (ver mensaje de Claude).
-      github: '',
+      // Versión limpia del código: sin claves ni historial antiguo.
+      github: 'https://github.com/pablodelpuertoblanco/playswipe',
       demo: '',
       rol: '', // qué hiciste tú en el equipo; si lo rellenas aparece como "Mi papel"
       animacion: 'swipe', // demo animada de la portada: 'swipe' | 'finanzas' | ''
@@ -367,7 +367,7 @@ export default {
       ],
       tecnologias: ['Flutter', 'Dart', 'Riverpod', 'Drift (SQLite)', 'fl_chart'],
       imagen: '', // p. ej. 'assets/img/proyectos/colchon.webp'
-      github: '',
+      github: 'https://github.com/pablodelpuertoblanco/colchon',
       demo: '',
       nota: '',
       animacion: 'finanzas',
