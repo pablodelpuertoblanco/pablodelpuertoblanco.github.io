@@ -361,6 +361,7 @@ export default {
         'Gastos e ingresos con categorías y movimientos recurrentes.',
         'Estadísticas y calendario de movimientos.',
         'Presupuestos y plan anual: previsto frente a real.',
+        'Plan anual importable desde Excel (.xlsx), con plantilla incluida.',
         'Regla 50/30/20 con objetivos configurables.',
         'Lista de la compra.',
         'Exportación a CSV y copias de seguridad.',
